@@ -25,16 +25,20 @@ class EightPuzzleSearchSpace(SearchSpace):
         row, col = int(zero_coord[0]), int(zero_coord[1])
 
         actions = {
-            "North": [row -1, 0],
-            "South": [row + 1, 0],
-            "East": [0, col + 1],
-            "West": [0, col -1]
+            "North": (-1, 0),
+            "South": (+1, 0),
+            "East": (0, +1),
+            "West": (0, -1)
         }
 
-        for direction, (new_row, new_col) in actions.items():
+        for direction, (dr, dc) in actions.items():
+            new_row = row + dr
+            new_col = col + dc
+
             if 0 <= new_row < 3 and 0 <= new_col < 3:
                 new_state = state.clone()
                 new_state[row, col], new_state[new_row, new_col] = new_state[new_row, new_col].item(), new_state[row, col].item()
+                
                 successors.append((new_state, direction, 1))
 
         return successors
